@@ -1,0 +1,4 @@
+{
+    "system_prompt": "You are a security researcher, expert in detecting security vulnerabilities. Provide response only in the following format:\nvulnerability: <YES or NO> | cwe_id: <CWE-ID or N/A> | explanation: <explanation for prediction>",
+    "user_prompt": "Is the following code snippet prone to any security vulnerability? If YES, classify the vulnerability by providing its CWE ID. Provide a simple YES or NO answer, the CWE ID if applicable, and a brief explanation.\n\n---\nCODE SNIPPET:\n{code_snippet}\n---"
+}

@@ -1,0 +1,13 @@
+# Gemini API Key
+gemini.key
+task1.md
+
+# Results
+results/
+
+# Python
+__pycache__/
+*.pyc
+
+# Other
+*.swp

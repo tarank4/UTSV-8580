@@ -1,0 +1,75 @@
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-Instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-Instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Model not found:llama-3.1-8b-Instruct
+Valid keys: 
+dict_keys(['llama-2-7b-chat', 'llama-2-13b-chat', 'llama-2-70b-chat', 'llama-2-7b', 'llama-2-13b', 'llama-2-70b', 'llama-3-8b', 'llama-3.1-8b-Instruct', 'llama-3-70b', 'llama-3-70b-tai'])
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-Instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-Instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Model not found:llama-3.1-8b-Instruct
+Valid keys: 
+dict_keys(['llama-2-7b-chat', 'llama-2-13b-chat', 'llama-2-70b-chat', 'llama-2-7b', 'llama-2-13b', 'llama-2-70b', 'llama-3-8b', 'llama-3.1-8b-Instruct', 'llama-3-70b', 'llama-3-70b-tai'])
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-Instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-Instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Model not found:llama-3.1-8b-Instruct
+Valid keys: 
+dict_keys(['llama-2-7b-chat', 'llama-2-13b-chat', 'llama-2-70b-chat', 'llama-2-7b', 'llama-2-13b', 'llama-2-70b', 'llama-3-8b', 'llama-3.1-8b-Instruct', 'llama-3-70b', 'llama-3-70b-tai'])
+Error details: 'llama-3.1-8b-instruct'
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-Instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-Instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Model not found:llama-3.1-8b-Instruct
+Valid keys: 
+dict_keys(['llama-2-7b-chat', 'llama-2-13b-chat', 'llama-2-70b-chat', 'llama-2-7b', 'llama-2-13b', 'llama-2-70b', 'llama-3-8b', 'llama-3.1-8b-Instruct', 'llama-3-70b', 'llama-3-70b-tai'])
+Error details: 'llama-3.1-8b-instruct'
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-Instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-Instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Model not found:llama-3.1-8b-Instruct
+Valid keys: 
+dict_keys(['llama-2-7b-chat', 'llama-2-13b-chat', 'llama-2-70b-chat', 'llama-2-7b', 'llama-2-13b', 'llama-2-70b', 'llama-3-8b', 'llama-3.1-8b-Instruct', 'llama-3-70b', 'llama-3-70b-tai'])
+Error details: 'llama-3.1-8b-instruct'
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+>>>Loading model
+Output folder: shared/v2/study_results_v2//llama-3.1-8b-instruct_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-3.1-8b-instruct
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM
+>>>Loading model

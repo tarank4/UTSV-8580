@@ -1,0 +1,33 @@
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes

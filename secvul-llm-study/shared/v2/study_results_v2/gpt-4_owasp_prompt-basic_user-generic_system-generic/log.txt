@@ -1,0 +1,7 @@
+Output folder: shared/v2/study_results_v2//gpt-4_owasp_prompt-basic_user-generic_system-generic
+Model name: gpt-4
+Benchmark: owasp
+Output folder: shared/v2/study_results_v2//gpt-4_owasp_prompt-basic_user-generic_system-generic
+Model name: gpt-4
+Benchmark: owasp
+>>Data Items Selected: 2740

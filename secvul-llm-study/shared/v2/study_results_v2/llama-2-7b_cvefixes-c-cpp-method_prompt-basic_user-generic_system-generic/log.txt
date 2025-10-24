@@ -1,0 +1,29 @@
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 19576
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 19576
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+Output folder: shared/v2/study_results_v2//llama-2-7b_cvefixes-c-cpp-method_prompt-basic_user-generic_system-generic
+Model name: llama-2-7b
+Benchmark: cvefixes-c-cpp-method
+>>Data Items Selected: 3103
+>>>Loading LLM model with CausalLM

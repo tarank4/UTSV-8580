@@ -3,7 +3,7 @@
 # create a SQLite3 database file of the CVEfixes.
 
 # ------------------------------------------------------------------------------
-DATA_PATH=Output/
-gzcat $DATA_PATH/CVEfixes.sql.gz | sqlite3 $DATA_PATH/CVEfixes.db
+DATA_PATH=Data/
+zcat $DATA_PATH/CVEfixes_v1.0.8.sql.gz | sqlite3 $DATA_PATH/CVEfixes.db
 
 #------------------------------------------------------------------------------

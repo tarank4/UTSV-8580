@@ -12,6 +12,7 @@ from utils.utils import (
 from data.prompt import PROMPTS, PROMPTS_SYSTEM, PROMPT_TYPES
 import pandas as pd
 from tqdm.contrib.concurrent import thread_map
+from tqdm import tqdm
 
 OUTPUT_DIR = 'shared/v2/study_results_v2/'
 
@@ -72,11 +73,14 @@ def run_exp(model_name, benchmark, **kwargs):
 
     logger.log(">>Data Items Selected: {}".format(len(data.df)))
     processed_samples=0
-    for i in data.iterator:
+    for i in tqdm(data.iterator):
         item = data.get_items(i)
+
+        assert item is not None, "Item is None for index: {}".format(i[0])
         
-        snippet = item[-1]  # last item is the code snippet
+        snippet = item[3] 
         prompt_cwe = item[1]
+        code_path = item[4]
         cwenames = pd.read_csv("utils/cwenames_top25.txt", index_col="id")
 
         print("Prompt CWE:", prompt_cwe)
@@ -102,7 +106,7 @@ def run_exp(model_name, benchmark, **kwargs):
         #continue
         if (os.path.exists(os.path.join(output_folder, str(item[0]), "pred.txt"))
             and os.path.getsize(os.path.join(output_folder, str(item[0]), "pred.txt")) > 0 and (not overwrite) and (not isnull)):
-            logger.log("Skipping ID: " + str(item[0]))
+            logger.log("Skipping ID because its prediction already exists: " + str(item[0]))
             processed_samples+=1
             continue
         else:
@@ -111,7 +115,7 @@ def run_exp(model_name, benchmark, **kwargs):
             if "gpt" not in model_name.lower():
                 if is_too_large(model, snippet, kwargs.get("max_input_tokens", 16000)):
                     logger.log("Too large, skipping")
-                    continue            
+                    continue
             pred = model.predict(model_input)
             time_taken = time.time() - st
             logger.log(os.path.join(output_folder, str(item[0])))

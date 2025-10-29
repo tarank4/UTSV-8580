@@ -37,8 +37,14 @@ cwe_names = [
     (863, "Incorrect Authorization"),
     (276, "Incorrect Default Permissions"),
     (614, "Sensitive Cookie in HTTPS Session Without 'Secure' Attribute"),
+    (685, "Function Call with Incorrect Number of Arguments"),
+    (606, "Unchecked Loop Condition"),
+    (369, "Divide By Zero"),
+    (121, "Stack Based Buffer Overflow"),
+    (122, "Heap Based Buffer Overflow"),
+    (190, "Integer Overflow"),
+    (191, "Integer Underflow"),
 ]
-
 cwe_name_mapping = {key: val for (key, val) in cwe_names}
 
 class Juliet:
@@ -69,7 +75,9 @@ class Juliet:
                 df=df[df['vul'] == False]
         if self.kwargs.get('top_cwe', None) is not None:
             top_cwes = ['CWE' + k for k in open("utils/cwe_top_25.txt").read().strip().splitlines()[:int(self.kwargs['top_cwe'])]]
+            print("Top cwes:", top_cwes)
             df = df[df['cwe'].isin(top_cwes)]
+            print("df.head after top cwe filter:", df.head())
 
         # sorting after cwe selection, but before n_examples to allow both positive and negative examples
         if self.kwargs.get('sort', None) == 'random':
@@ -111,5 +119,10 @@ class Juliet:
         return cwe_name_mapping[id]
 
     def get_items(self, n):
-        return n[0], n[1]['cwe'].replace("CWE", ""), n[1]['vul'], self.get_code(n[1]['file'])
+        # item 0 is the index
+        # item 1 is the CWE
+        # item 2 is vul or not
+        # item 3 is the code snippet
+        # item 4 path to code file
+        return n[0], n[1]['cwe'].replace("CWE", ""), n[1]['vul'], self.get_code(n[1]['file']), n[1]['file']
 

@@ -28,6 +28,7 @@ def gen_table(output_folder, group_by_col=None, dataset_csv_path=None, dataset_i
         df = group_metrics(df, group_by_col, dataset_csv_path, dataset_index_col)
 
     all = compute_precision_recall_accuracy(df, "true_label", "llm_label")
+    all["cwe_correct"] = len(df[df["cwe_correct"] == True]) / len(df)
     table.append(
         [
             "All",
@@ -38,7 +39,8 @@ def gen_table(output_folder, group_by_col=None, dataset_csv_path=None, dataset_i
             all["accuracy"],
             all["precision"],
             all["recall"],
-            all["f1"]
+            all["F1"],  # Change from f1 to F1
+            all["cwe_correct"]  # Add CWE Correct %
         ]
     )
     cwes = list(df["true_cwe"].unique())
@@ -57,23 +59,25 @@ def gen_table(output_folder, group_by_col=None, dataset_csv_path=None, dataset_i
                 prec_recall["accuracy"],
                 prec_recall["precision"],
                 prec_recall["recall"],
-                prec_recall["F1"]
+                prec_recall["F1"],
+                # CWE correct count
+                cwe_df["cwe_correct"].sum() / len(cwe_df)
                 
             ]
         )
     print(
         tabulate.tabulate(
             table,
-            headers=["CWE", "TP", "TN", "FP", "FN", "Accuracy", "Precision", "Recall", "F1"],
+            headers=["CWE", "TP", "TN", "FP", "FN", "Accuracy", "Precision", "Recall", "F1", "CWE Accuracy"],
             tablefmt="orgtbl",
         )
     )
     print(
         tabulate.tabulate(
             table,
-            headers=["CWE", "TP", "TN", "FP", "FN", "Accuracy", "Precision", "Recall", "F1"],
+            headers=["CWE", "TP", "TN", "FP", "FN", "Accuracy", "Precision", "Recall", "F1", "CWE Accuracy"],
             tablefmt="latex",
-            floatfmt=(".0f", ".0f", ".0f", ".0f", ".0f", ".2f",".2f", ".2f", ".2f"),
+            floatfmt=(".0f", ".0f", ".0f", ".0f", ".0f", ".2f",".2f", ".2f", ".2f", ".2f"),
         )
     )
 

@@ -1,27 +1,28 @@
 name,id
-Improper Input Validation,20
 OS Command Injection,78
 Cryptographic,327
 weak hash,328
 LDAP Injection,90
 Path Traversal,22
+Sensitive Cookie|Secure Cookie,614
 SQL Injection,89
 trust boundary violation,501
 Insufficiently Random Values,330
 XPath Injection,643
-Cross Site Scripting,79
-Out-of-bounds Read,125
-Race Condition or Concurrent Execution using Shared Resource with Improper Synchronization,362
+xss|cross-site scripting|cross site scripting,79
+Out-of-bounds read|out of bounds read,125
+Race Condition|Concurrent Execution using Shared Resource with Improper Synchronization|Improper Synchronization,362
 Command Injection,77
-Out-of-bounds Write,787
-Use After Free,416
+Out-of-bounds Write|Out of bounds Write,787
+use after free,416
+Improper Input Validation,20
 Improper Privilege Management,269
 NULL Pointer Dereference,476
-Integer Overflow,190
-Improper Control of Generation of Code or Code Injection,94
-Cross-Site Request Forgery,352
+integer overflow,190
+Code Injection,94
+CSRF|cross site scripting|cross-site scripting,352
 Missing Authorization,862
-Server-Side Request Forgery (SSRF),918
+Server-Side Request Forgery|SSRF|Cross Site Port Attack|xspa,918
 Improper Restriction of Operations within the Bounds of a Memory Buffer,119
 Deserialization of Untrusted Data,502
 Improper Authentication,287
@@ -30,11 +31,3 @@ Use of Hard-coded Credentials,798
 Missing Authentication for Critical Function,306
 Incorrect Authorization,863
 Incorrect Default Permissions,276
-Sensitive Cookie in HTTPS Session Without 'Secure' Attribute,614
-Function Call with Incorrect Number of Arguments,685
-Unchecked Loop Condition,606
-Divide By Zero,369
-Stack Based Buffer Overflow,121
-Heap Based Buffer Overflow,122
-Integer Overflow,190
-Integer Underflow,191

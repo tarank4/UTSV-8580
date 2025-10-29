@@ -11,11 +11,17 @@ PROMPT_TYPES = [
     "instruction_cot_cwe_specific",
     "few_shot_cot",
     "step_by_step_dataflow_analysis_generic",
-    "step_by_step_dataflow_analysis_cwe_specific"
+    "step_by_step_dataflow_analysis_cwe_specific",
+    "unit_test_generic",
 ]
 
 PROMPTS_SYSTEM["generic"] = "You are a security researcher, expert in detecting security vulnerabilities.\
 Provide response only in following format: '$$ vulnerability: <YES or NO> | vulnerability type: <CWE_ID> | lines of code: <VULNERABLE_LINES_OF_CODE> | explanation: <explanation for prediction> $$'.\
+Use N/A in other fields if there are no vulnerabilities. Do not include anything else in response."
+
+PROMPTS_SYSTEM["unit_test"] = "You are a security researcher, expert in detecting security vulnerabilities.\
+Write a unit test to exploit the snippet's vulnerability if it is vulnerable (either call the function with specific input or write the stdin that would break it). Then classify the vulnerability (if there is one) \
+Provide response only in following format: '$$ unit test: <simple unit test> | vulnerability: <YES or NO> | vulnerability type: <CWE_ID> | lines of code: <VULNERABLE_LINES_OF_CODE> | explanation: <explanation for prediction> $$'.\
 Use N/A in other fields if there are no vulnerabilities. Do not include anything else in response."
 
 PROMPTS_SYSTEM["generic_explanation_first"] = "You are a security researcher, expert in detecting security vulnerabilities.\

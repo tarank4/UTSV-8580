@@ -1,5 +1,4 @@
 name,id
-Improper Input Validation,20
 OS Command Injection,78
 Cryptographic,327
 weak hash,328
@@ -15,6 +14,7 @@ Race Condition or Concurrent Execution using Shared Resource with Improper Synch
 Command Injection,77
 Out-of-bounds Write,787
 Use After Free,416
+Improper Input Validation,20
 Improper Privilege Management,269
 NULL Pointer Dereference,476
 Integer Overflow,190
@@ -31,10 +31,3 @@ Missing Authentication for Critical Function,306
 Incorrect Authorization,863
 Incorrect Default Permissions,276
 Sensitive Cookie in HTTPS Session Without 'Secure' Attribute,614
-Function Call with Incorrect Number of Arguments,685
-Unchecked Loop Condition,606
-Divide By Zero,369
-Stack Based Buffer Overflow,121
-Heap Based Buffer Overflow,122
-Integer Overflow,190
-Integer Underflow,191

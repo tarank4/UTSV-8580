@@ -33,6 +33,13 @@ def generate_message_list(prompting_technique, snippet, prompt_cwe=-1, user_prom
             prompt_type=user_prompt,
             system_prompt_type=system_prompt
         )
+    elif "unit_test" in prompting_technique:
+        prompt_message_list = generate_unit_test_message_list(
+            snippet=snippet,
+            prompt_cwe=prompt_cwe,
+            prompt_type=user_prompt,
+            system_prompt_type=system_prompt
+        )
     else:
         raise Exception(f"Prompting technique: {prompting_technique} not found")
     return prompt_message_list
@@ -171,5 +178,13 @@ def generate_validation_message_list(id, dataset_results_dir):
         {"role": "user", "content": PROMPTS["validation"]}])
     return messages
 
+def generate_unit_test_message_list(snippet, prompt_cwe, prompt_type, system_prompt_type):
+    """
+    Generate an OpenAI API-style message with a system and a user prompt
+    Encourage the model to write a unit test before classifiying the snippet
+    """
+    query = PROMPTS[prompt_type].format(snippet, get_cwe_name_from_id(prompt_cwe))
+    system_prompt = PROMPTS_SYSTEM[system_prompt_type]
+    message_list = [{"role": "system", "content": system_prompt}, {"role": "user", "content": query}]
 
-
+    return message_list

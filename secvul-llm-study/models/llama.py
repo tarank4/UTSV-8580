@@ -9,6 +9,9 @@ import os
 from models.llm import LLM
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:64"
 
+assert torch.cuda.is_available(), "CUDA not visible. Check drivers and CUDA_VISIBLE_DEVICES."
+
+
 _model_name_map = {
     "llama-2-7b-chat": "meta-llama/Llama-2-7b-chat-hf",
     "llama-2-13b-chat": "meta-llama/Llama-2-13b-chat-hf",

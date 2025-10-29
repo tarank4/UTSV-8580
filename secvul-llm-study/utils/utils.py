@@ -11,7 +11,7 @@ cwe_to_title_mapping = {
 
 def store_results(experiment_output_dir, id, results):
     id_results_dir = os.path.join(experiment_output_dir, id)
-    os.makedirs(id_results_dir)
+    os.makedirs(id_results_dir, exist_ok=True)
     for result in results.keys():
         with open(os.path.join(id_results_dir, str(result) + ".txt"), "w") as f:
             f.write(str(results[result]))

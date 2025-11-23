@@ -3,48 +3,98 @@ The same test MUST PASS on a fixed version of the code.
 
 # Vulnerable Function Body
 
-void init_syntax_once ()
+char* parse_content_length( char* buffer, char* end, int* length)
 {
-   register int c;
-   int done;
+	int number;
+	char *p;
+	int  size;
 
-   if (done)
-     return;
+	p = buffer;
+	/* search the beginning of the number */
+	while ( p<end && (*p==' ' || *p=='\t' || (*p=='\r' && *(p+1)=='\n') ||
+	(*p=='\n' && (*(p+1)==' '||*(p+1)=='\t')) ))
+		p++;
+	if (p==end)
+		goto error;
+	/* parse the number */
+	size = 0;
+	number = 0;
+	while (p<end && *p>='0' && *p<='9') {
+		number = number*10 + (*p)-'0';
+		if (number<0) {
+			LM_ERR("number overflow at pos %d in len number [%.*s]\n",
+				(int)(p-buffer),(int)(end-buffer), buffer);
+			return 0;
+		}
+		size ++;
+		p++;
+	}
+	if (p==end || size==0)
+		goto error;
+	/* now we should have only spaces at the end */
+	while ( p<end && (*p==' ' || *p=='\t' ||
+	(*p=='\n' && (*(p+1)==' '||*(p+1)=='\t')) ))
+		p++;
+	if (p==end)
+		goto error;
+	/* the header ends proper? */
+	if ( (*(p++)!='\n') && (*(p-1)!='\r' || *(p++)!='\n' ) )
+		goto error;
 
-   bzero (re_syntax_table, sizeof re_syntax_table);
-
-   for (c = 'a'; c <= 'z'; c++)
-     re_syntax_table[c] = Sword;
-
-   for (c = 'A'; c <= 'Z'; c++)
-     re_syntax_table[c] = Sword;
-
-   for (c = '0'; c <= '9'; c++)
-     re_syntax_table[c] = Sword;
-
-   re_syntax_table['_'] = Sword;
-
-   done = 1;
+	*length = number;
+	return p;
+error:
+	LM_ERR("parse error near char [%d][%c]\n",*p,*p);
+	return 0;
 }
 
 # Fixed Function Body
 
-void init_syntax_once ()
+char* parse_content_length( char* buffer, char* end, int* length)
 {
-   register int c;
-   int done = 0;
+	int number;
+	char *p;
+	int  size;
 
-   if (done)
-     return;
-   bzero (re_syntax_table, sizeof re_syntax_table);
+	p = buffer;
+	/* search the beginning of the number */
+	while ( p<end && (*p==' ' || *p=='\t' || (*p=='\r' && *(p+1)=='\n') ||
+	(*p=='\n' && (*(p+1)==' '||*(p+1)=='\t')) ))
+		p++;
+	if (p==end)
+		goto error;
+	/* parse the number */
+	size = 0;
+	number = 0;
+	while (p<end && *p>='0' && *p<='9') {
+		/* do not actually cause an integer overflow, as it is UB! --liviu */
+		if (number > 214748363) {
+			LM_ERR("integer overflow risk at pos %d in len number [%.*s]\n",
+				(int)(p-buffer),(int)(end-buffer), buffer);
+			return 0;
+		}
 
-   for (c = 0; c < CHAR_SET_SIZE; ++c)
-     if (ISALNUM (c))
-	re_syntax_table[c] = Sword;
+		number = number*10 + (*p)-'0';
+		size ++;
+		p++;
+	}
+	if (p==end || size==0)
+		goto error;
+	/* now we should have only spaces at the end */
+	while ( p<end && (*p==' ' || *p=='\t' ||
+	(*p=='\n' && (*(p+1)==' '||*(p+1)=='\t')) ))
+		p++;
+	if (p==end)
+		goto error;
+	/* the header ends proper? */
+	if ( (*(p++)!='\n') && (*(p-1)!='\r' || *(p++)!='\n' ) )
+		goto error;
 
-   re_syntax_table['_'] = Sword;
-
-   done = 1;
+	*length = number;
+	return p;
+error:
+	LM_ERR("parse error near char [%d][%c]\n",*p,*p);
+	return 0;
 }
 
 # Testing Harness (harness.h)
@@ -76,18 +126,11 @@ void init_syntax_once ()
 #ifndef MOCK_CONTEXT_H
 #define MOCK_CONTEXT_H
 
-#include <string.h> // For memset
-#include <stddef.h> // For size_t, if needed
+#include <stdio.h>  // For printf (used in LM_ERR)
+#include <stdlib.h> // For standard library functions like malloc, free, etc.
 
-#define CHAR_SET_SIZE 256
-#define ISALNUM(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z') || ((c) >= '0' && (c) <= '9'))
-
-// Map bzero to memset for portability
-#define bzero(ptr, size) memset((ptr), 0, (size))
-
-// Define the SyntaxType enum and the re_syntax_table array
-enum SyntaxType { Sword };
-enum SyntaxType re_syntax_table[CHAR_SET_SIZE];
+// Define the LM_ERR macro for error logging
+#define LM_ERR(fmt, ...) fprintf(stderr, fmt, ##__VA_ARGS__)
 
 #endif // MOCK_CONTEXT_H
 
@@ -105,7 +148,7 @@ void run_test(void);
 #include "harness.h"
 
 // Function under test
-void init_syntax_once ();
+char* parse_content_length( char* buffer, char* end, int* length);
 
 // <Configure global constants and variables here>
 // <Environment setup for function under test>
@@ -122,28 +165,49 @@ void run_test(void) {
 }
 
 // Function under test
-void init_syntax_once ()
+char* parse_content_length( char* buffer, char* end, int* length)
 {
-   register int c;
-   int done;
+	int number;
+	char *p;
+	int  size;
 
-   if (done)
-     return;
+	p = buffer;
+	/* search the beginning of the number */
+	while ( p<end && (*p==' ' || *p=='\t' || (*p=='\r' && *(p+1)=='\n') ||
+	(*p=='\n' && (*(p+1)==' '||*(p+1)=='\t')) ))
+		p++;
+	if (p==end)
+		goto error;
+	/* parse the number */
+	size = 0;
+	number = 0;
+	while (p<end && *p>='0' && *p<='9') {
+		number = number*10 + (*p)-'0';
+		if (number<0) {
+			LM_ERR("number overflow at pos %d in len number [%.*s]\n",
+				(int)(p-buffer),(int)(end-buffer), buffer);
+			return 0;
+		}
+		size ++;
+		p++;
+	}
+	if (p==end || size==0)
+		goto error;
+	/* now we should have only spaces at the end */
+	while ( p<end && (*p==' ' || *p=='\t' ||
+	(*p=='\n' && (*(p+1)==' '||*(p+1)=='\t')) ))
+		p++;
+	if (p==end)
+		goto error;
+	/* the header ends proper? */
+	if ( (*(p++)!='\n') && (*(p-1)!='\r' || *(p++)!='\n' ) )
+		goto error;
 
-   bzero (re_syntax_table, sizeof re_syntax_table);
-
-   for (c = 'a'; c <= 'z'; c++)
-     re_syntax_table[c] = Sword;
-
-   for (c = 'A'; c <= 'Z'; c++)
-     re_syntax_table[c] = Sword;
-
-   for (c = '0'; c <= '9'; c++)
-     re_syntax_table[c] = Sword;
-
-   re_syntax_table['_'] = Sword;
-
-   done = 1;
+	*length = number;
+	return p;
+error:
+	LM_ERR("parse error near char [%d][%c]\n",*p,*p);
+	return 0;
 }
 
 int main() {

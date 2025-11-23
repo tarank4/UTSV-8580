@@ -117,3 +117,7 @@ Case 0: Score 0
 Case 1: Score 0
 Case 0: Score 0
 Case 1: Score 0
+Case 2: Score 0
+Case 3: Score 0
+Case 4: Score 0
+Case 5: Score 0

@@ -12,6 +12,7 @@ __pycache__/
 # Other
 *.swp
 .venv/
+.vscode/
 
 secvul-llm-study/datasets/juliet/*
 secvul-llm-study/datasets/owasp_data/*
@@ -22,3 +23,7 @@ secvul-llm-study/datasets/CVEFixes_v1.0.7/cvefixed_java_method.csv
 *.db
 secvul-llm-study/datasets/cpp-1.3/
 secvul-llm-study/shared/*
+
+*.png
+*.sif
+*.csv

@@ -24,8 +24,9 @@ gcc -std=c11 -Wall -Wextra -O1 -g -fsanitize=address,undefined -fno-omit-frame-p
 
 # Your job
 
-You must write C code that will be pasted into main.c at the location marked
-`// <Configure global constants and variables here>` and before the existing `run_test` declaration. If something isn't defined in the harness or main files, you must define it yourself, including mocks and stubs if necessary.
+You must an implementation for `run_test`
+Your response will be inserted at the '// Your generated code will be placed right here' location. 
+If something isn't defined in the harness or main files, you must define it yourself, including mocks and stubs if necessary.
 
 You are allowed to:
 - Declare global constants, variables, stubs, and mocks used by the test.

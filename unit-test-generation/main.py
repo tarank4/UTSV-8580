@@ -82,8 +82,6 @@ def run_inference_only(
     responses_path.parent.mkdir(parents=True, exist_ok=True)
     with responses_path.open("w", encoding="utf-8") as f_out:
         for case_idx, row in dataset.iterrows():
-            if case_idx != 52:
-                continue
             case: Case = build_case_from_row(row.to_dict())
             print("Case:", case)
             logger.log(f"Case {case_idx}: {case}")
@@ -188,6 +186,8 @@ def run_both(
 
     with responses_path.open("w", encoding="utf-8") as f_out:
         for case_idx, row in dataset.iterrows():
+            if case_idx != 50:
+                continue
             case: Case = build_case_from_row(row.to_dict())
             print("Case:", case)
             logger.log(f"Case {case_idx}: {case}")

@@ -29,3 +29,4 @@ secvul-llm-study/shared/*
 *.csv
 unit-test-generation/data/
 *.parquet
+unit-test-generation/harness/tmp

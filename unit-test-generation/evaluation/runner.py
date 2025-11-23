@@ -36,9 +36,14 @@ def run_unit_test(harness_h_code: str, main_c_code: str, use_apptainer=True) -> 
         (tmpdir_path / "harness.h").write_text(harness_h_code, encoding="utf-8")
         (tmpdir_path / "main.c").write_text(main_c_code, encoding="utf-8")
 
-        compilation_command = (
+        sanitized_compilation_command = (
             "gcc -std=c11 -Wall -Wextra -O1 -g "
             "-fsanitize=address,undefined -fno-omit-frame-pointer main.c -o main"
+        )
+
+        unsanitized_compilation_command = (
+            "gcc -std=c11 -Wall -Wextra -O1 -g "
+            "main.c -o main"
         )
 
         # Build the command:
@@ -52,7 +57,7 @@ def run_unit_test(harness_h_code: str, main_c_code: str, use_apptainer=True) -> 
                 APPTAINER_IMAGE_PATH,
                 "sh","-lc",
                 "cd /work && ulimit -v unlimited && ulimit -d unlimited && "
-                f"{compilation_command} && "
+                f"{unsanitized_compilation_command} && "
                 "./main"
             ]
 
@@ -60,7 +65,7 @@ def run_unit_test(harness_h_code: str, main_c_code: str, use_apptainer=True) -> 
             cmd = [
                 "sh","-lc",
                 f"cd {tmpdir_path} && ulimit -v unlimited && ulimit -d unlimited && "
-                f"{compilation_command} && "
+                f"{sanitized_compilation_command} && "
                 "./main"
             ]
 

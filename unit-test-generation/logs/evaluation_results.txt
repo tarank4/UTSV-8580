@@ -398,3 +398,8 @@ Case 67: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_sc
 Case 68: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
 Case 69: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
 >>>>>>> cef0b73e6b4bb207e9ff41f3e59dce8aabeec002
+Case 52: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 51: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 51: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 51: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 50: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)

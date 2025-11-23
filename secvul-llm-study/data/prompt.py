@@ -16,13 +16,29 @@ PROMPT_TYPES = [
 ]
 
 PROMPTS_SYSTEM["generic"] = "You are a security researcher, expert in detecting security vulnerabilities.\
-Provide response only in following format: '$$ vulnerability: <YES or NO> | vulnerability type: <CWE_ID> | lines of code: <VULNERABLE_LINES_OF_CODE> | explanation: <explanation for prediction> $$'.\
+Provide response only in following format (only pick one CWE): '$$ vulnerability: <YES or NO> | vulnerability type: <CWE_ID> | lines of code: <VULNERABLE_LINES_OF_CODE> | explanation: <explanation for prediction> $$'.\
 Use N/A in other fields if there are no vulnerabilities. Do not include anything else in response."
 
-PROMPTS_SYSTEM["unit_test"] = "You are a security researcher, expert in detecting security vulnerabilities.\
-Write a unit test to exploit the snippet's vulnerability if it is vulnerable (either call the function with specific input or write the stdin that would break it). Then classify the vulnerability (if there is one) \
-Provide response only in following format: '$$ unit test: <simple unit test> | vulnerability: <YES or NO> | vulnerability type: <CWE_ID> | lines of code: <VULNERABLE_LINES_OF_CODE> | explanation: <explanation for prediction> $$'.\
-Use N/A in other fields if there are no vulnerabilities. Do not include anything else in response."
+PROMPTS_SYSTEM["unit_test"] = """
+You are a security researcher. Write a MINIMAL unit test to exercise the function under test and reveal any vulnerability. Then classify the CWE.
+
+Hard rules:
+- Do NOT include long literal strings, wide strings, byte arrays, or repeated characters. Construct long inputs programmatically (e.g., memset(buf,'A',N); buf[N-1]='\0'; std::wstring(N, L'A')).
+- Any single literal ≤ 80 characters. Total test ≤ 60 lines.
+- Do NOT paste or restate the full source. Refer to it as "the function under test".
+- Be concise. No filler text.
+
+In the analysis, include this checklist as short bullets:
+- allocation_site = stack | heap | static | unknown   (where the target buffer is defined)
+- copy_api = memcpy/memmove/strcpy/strcat/...         (primary data-move sink)
+- bounds_check = present | missing                    (before the sink)
+- risk = off-by-one | overflow | underflow | UAF | other          (one word)
+- sink_lines = <line numbers or N/A>
+
+Classification rule:
+- Prefer the specific CWE category over the general ones. (e.g. Stack overflow vs Heap overflow rather than Buffer Overflow)
+Provide response only in following format: '$$ step-by-step analysis: <walk through of the code> | unit test: <unit test with no long literals and less than 60 lines> | vulnerability: <YES or NO> | vulnerability type: <CWE_ID> | lines of code: <VULNERABLE_LINES_OF_CODE> | explanation: <explanation for prediction> $$'.\
+Use N/A in other fields if there are no vulnerabilities. Do not include anything else in response."""
 
 PROMPTS_SYSTEM["generic_explanation_first"] = "You are a security researcher, expert in detecting security vulnerabilities.\
 Provide response only in following format: '$$ explanation: <summary of the vulnerability analysis on the given code snippet> | vulnerability: <YES or NO> | vulnerability type: <CWE_ID> $$'.\

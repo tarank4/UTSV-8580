@@ -1,8 +1,10 @@
+set -e
+
 python main.py \
     --model_name llama-3.1-8b-instruct \
     --benchmark juliet-cpp-1.3 \
-    --top_cwe 9 \
-    --n_examples 20 \
+    --top_cwe 25 \
+    --n_examples 50 \
     --prompting_technique unit_test_generic \
     --prompt generic \
     --sys_prompt unit_test \

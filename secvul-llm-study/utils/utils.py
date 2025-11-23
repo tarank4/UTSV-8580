@@ -30,7 +30,9 @@ def parse_llm_results(pred_text):
 
     vul_type = re.findall("type\s*[:=]\s*(CWE[-_]\d+|NA|N/A)", pred_text, re.IGNORECASE)
     results["vulnerability type"] = vul_type[0] if len(vul_type) > 0 else None
-
+    if results["vulnerability type"] is None:
+        print("Could not find vulnerability type in prediction: ", pred_text)
+        
     vul_name = re.findall("name\s*[:=]\s*([^|]*)", pred_text, re.IGNORECASE)
     results["vulnerability name"] = vul_name[0] if len(vul_name) > 0 else None
 
@@ -182,6 +184,13 @@ def compute_results(output_folder):
                 cur_result["llm_cwe_raw"]=llm_results["vulnerability type"]
 
                 cur_result["llm_label"] = is_true(llm_results["vulnerability"])
+
+                # For every llm label that is false, print the vulnerability text from llm_results
+                if not cur_result["llm_label"]:
+                    print(f"LLM says not vulnerable for {name}:")
+                    print(llm_pred)
+                    print("-----")
+
                 cur_result["correct"] = is_true(llm_results["vulnerability"]) == is_true(true_label)
 
                 if llm_results["vulnerability type"] == cwe or cwe_in_predicted_name(cwenames, cwe, llm_results["vulnerability name"]):

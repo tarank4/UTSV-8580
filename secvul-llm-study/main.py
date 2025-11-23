@@ -73,6 +73,14 @@ def run_exp(model_name, benchmark, **kwargs):
 
     logger.log(">>Data Items Selected: {}".format(len(data.df)))
     processed_samples=0
+
+    cwe_glossary = pd.read_csv("utils/cwenames_top25.txt", index_col="id")
+
+    # Convert CWE glossary to a string and put CWE- infront of each ID
+    cwe_glossary_str = "CWE Glossary:\n"
+    for idx, row in cwe_glossary.iterrows():
+        cwe_glossary_str += f"CWE-{idx}: {row['name']}\n"
+
     for i in tqdm(data.iterator):
         item = data.get_items(i)
 
@@ -87,7 +95,7 @@ def run_exp(model_name, benchmark, **kwargs):
        
         if not model_name.lower().startswith("gpt"):
             query = PROMPTS[kwargs["prompt_type"]].format(snippet, "{} (CWE-{})".format(cwenames.loc[int(prompt_cwe)]['name'], prompt_cwe))
-            system_prompt = PROMPTS_SYSTEM[kwargs["system_prompt_type"]]
+            system_prompt = "CWE Glossary: " + cwe_glossary_str + PROMPTS_SYSTEM[kwargs["system_prompt_type"]]
             model_input = [{"role": "system", "content": system_prompt}, {"role": "user", "content": query}]
         else:
             model_input = {
@@ -135,6 +143,7 @@ def run_exp(model_name, benchmark, **kwargs):
                     "cwe": str(item[1]),
                     "label": str(item[2]),
                     "time": time_taken,
+                    "prompt": model_input,
                 },
             )
         

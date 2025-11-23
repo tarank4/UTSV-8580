@@ -28,3 +28,4 @@ secvul-llm-study/shared/*
 *.sif
 *.csv
 unit-test-generation/data/
+*.parquet

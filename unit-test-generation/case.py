@@ -1,4 +1,5 @@
 from pathlib import Path 
+import json 
 
 harness_dir = Path("/home/ema8/UTSV-8580/unit-test-generation/harness")
 prompt_dir = Path("/home/ema8/UTSV-8580/unit-test-generation/prompts/prompt_v2.md")
@@ -78,6 +79,25 @@ class Case:
     
     def __str__(self) -> str:
         return f"Case(cve_list={self.cve_list})"
+    
+    def to_dict(self) -> dict:
+        return {
+            "cve_list": self.cve_list,
+            "function_name": self.function_name,
+            "vulnerable_function_body": self.vulnerable_function_body,
+            "fixed_function_body": self.fixed_function_body,
+            "context": self.context,
+        }
+    
+    @staticmethod
+    def from_dict(data: dict) -> "Case":
+        return Case(
+            cve_list=data["cve_list"],
+            function_name=data["function_name"],
+            vulnerable_function_body=data["vulnerable_function_body"],
+            fixed_function_body=data["fixed_function_body"],
+            context=data.get("context", ""),
+        )
 
 def build_case_from_row(row: dict) -> Case:
     return Case(

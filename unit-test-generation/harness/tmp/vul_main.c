@@ -1,38 +1,47 @@
 #include "harness.h"
 
 // Function under test
-unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits);
+void init_syntax_once ();
 
 // <Configure global constants and variables here>
 // Call the function under test
 // <Configure global constants and variables here>
-const unsigned long TEST_VALUE = 0xFFFFFFFFFFFFFFFF;
-const u32 TEST_SHIFT = 32;
-const u32 TEST_BITS = 32;
+int done = 1; // Set done to 1 to simulate the vulnerability condition
 
 // Add stubs and mocks here if necessary
 
 void run_test(void) {
-    // Test the vulnerable function
-    unsigned long result_vulnerable = shift_and_mask(TEST_VALUE, TEST_SHIFT, TEST_BITS);
-    if (result_vulnerable!= 0) {
-        RESULT_FAIL();
+    init_syntax_once();
+    if (re_syntax_table['a'] == Sword) {
+        RESULT_FAIL(); // This should fail in the vulnerable version because done is not initialized
+    } else {
+        RESULT_PASS(); // This should pass in the fixed version
     }
-
-    // Test the fixed function
-    unsigned long result_fixed = shift_and_mask(TEST_VALUE, TEST_SHIFT, TEST_BITS);
-    if (result_fixed == 0) {
-        RESULT_FAIL();
-    }
-
-    // If both tests pass
-    RESULT_PASS();
 }
 
 // Function under test
-unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits)
+void init_syntax_once ()
 {
-	return (v >> shift) & ((1 << bits) - 1);
+   register int c;
+   int done;
+
+   if (done)
+     return;
+
+   bzero (re_syntax_table, sizeof re_syntax_table);
+
+   for (c = 'a'; c <= 'z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = 'A'; c <= 'Z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = '0'; c <= '9'; c++)
+     re_syntax_table[c] = Sword;
+
+   re_syntax_table['_'] = Sword;
+
+   done = 1;
 }
 
 int main() {

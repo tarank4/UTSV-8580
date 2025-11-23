@@ -23,9 +23,21 @@
 
 /* Context relevant to this specific test */
 #ifndef MOCK_CONTEXT_H
-
 #define MOCK_CONTEXT_H
-typedef unsigned int u32;
+
+#include <string.h> // For memset
+#include <stddef.h> // For size_t, if needed
+
+#define CHAR_SET_SIZE 256
+#define ISALNUM(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z') || ((c) >= '0' && (c) <= '9'))
+
+// Map bzero to memset for portability
+#define bzero(ptr, size) memset((ptr), 0, (size))
+
+// Define the SyntaxType enum and the re_syntax_table array
+enum SyntaxType { Sword };
+enum SyntaxType re_syntax_table[CHAR_SET_SIZE];
+
 #endif // MOCK_CONTEXT_H
 
 

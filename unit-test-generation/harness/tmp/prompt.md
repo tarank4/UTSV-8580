@@ -3,16 +3,48 @@ The same test MUST PASS on a fixed version of the code.
 
 # Vulnerable Function Body
 
-unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits)
+void init_syntax_once ()
 {
-	return (v >> shift) & ((1 << bits) - 1);
+   register int c;
+   int done;
+
+   if (done)
+     return;
+
+   bzero (re_syntax_table, sizeof re_syntax_table);
+
+   for (c = 'a'; c <= 'z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = 'A'; c <= 'Z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = '0'; c <= '9'; c++)
+     re_syntax_table[c] = Sword;
+
+   re_syntax_table['_'] = Sword;
+
+   done = 1;
 }
 
 # Fixed Function Body
 
-unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits)
+void init_syntax_once ()
 {
-	return (v >> shift) & ((1U << bits) - 1);
+   register int c;
+   int done = 0;
+
+   if (done)
+     return;
+   bzero (re_syntax_table, sizeof re_syntax_table);
+
+   for (c = 0; c < CHAR_SET_SIZE; ++c)
+     if (ISALNUM (c))
+	re_syntax_table[c] = Sword;
+
+   re_syntax_table['_'] = Sword;
+
+   done = 1;
 }
 
 # Testing Harness (harness.h)
@@ -42,9 +74,21 @@ unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits)
 
 /* Context relevant to this specific test */
 #ifndef MOCK_CONTEXT_H
-
 #define MOCK_CONTEXT_H
-typedef unsigned int u32;
+
+#include <string.h> // For memset
+#include <stddef.h> // For size_t, if needed
+
+#define CHAR_SET_SIZE 256
+#define ISALNUM(c) (((c) >= 'a' && (c) <= 'z') || ((c) >= 'A' && (c) <= 'Z') || ((c) >= '0' && (c) <= '9'))
+
+// Map bzero to memset for portability
+#define bzero(ptr, size) memset((ptr), 0, (size))
+
+// Define the SyntaxType enum and the re_syntax_table array
+enum SyntaxType { Sword };
+enum SyntaxType re_syntax_table[CHAR_SET_SIZE];
+
 #endif // MOCK_CONTEXT_H
 
 
@@ -61,7 +105,7 @@ void run_test(void);
 #include "harness.h"
 
 // Function under test
-unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits);
+void init_syntax_once ();
 
 // <Configure global constants and variables here>
 // <Environment setup for function under test>
@@ -78,9 +122,28 @@ void run_test(void) {
 }
 
 // Function under test
-unsigned long shift_and_mask(unsigned long v, u32 shift, u32 bits)
+void init_syntax_once ()
 {
-	return (v >> shift) & ((1 << bits) - 1);
+   register int c;
+   int done;
+
+   if (done)
+     return;
+
+   bzero (re_syntax_table, sizeof re_syntax_table);
+
+   for (c = 'a'; c <= 'z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = 'A'; c <= 'Z'; c++)
+     re_syntax_table[c] = Sword;
+
+   for (c = '0'; c <= '9'; c++)
+     re_syntax_table[c] = Sword;
+
+   re_syntax_table['_'] = Sword;
+
+   done = 1;
 }
 
 int main() {

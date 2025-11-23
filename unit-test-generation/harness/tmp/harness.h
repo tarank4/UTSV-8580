@@ -23,9 +23,23 @@
 
 /* Context relevant to this specific test */
 #ifndef MOCK_CONTEXT_H
-
 #define MOCK_CONTEXT_H
-typedef unsigned int u32;
+
+#include <stdint.h>  // For uint8_t and int16_t
+#include <stddef.h>  // For size_t, if needed
+
+// Define constants
+#define VP9_FILTER_WEIGHT 128  // Example value for rounding
+#define VP9_FILTER_SHIFT 7     // Example value for normalization
+#define kMaxDimension 64       // Example maximum dimension for the fixed code
+
+// Mock the clip_pixel function
+static inline uint8_t clip_pixel(int value) {
+    if (value < 0) return 0;
+    if (value > 255) return 255;
+    return (uint8_t)value;
+}
+
 #endif // MOCK_CONTEXT_H
 
 

@@ -22,3 +22,4 @@ secvul-llm-study/datasets/CVEFixes_v1.0.7/cvefixed_java_method.csv
 *.db
 secvul-llm-study/datasets/cpp-1.3/
 secvul-llm-study/shared/*
+unit-test-generation/data/

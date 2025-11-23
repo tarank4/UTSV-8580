@@ -5,8 +5,15 @@ This will run the unit test against both versions.
 
 from case import Case
 from evaluation.runner import run_unit_test, RunResult
+from dataclasses import dataclass
 
 import os
+
+@dataclass
+class EvaluationResult:
+    fail_on_vuln: bool
+    pass_on_fixed: bool
+    total_score: int
 
 def clean_response(response: str) -> str:
     """
@@ -25,7 +32,7 @@ def clean_response(response: str) -> str:
     return response.strip()
 
 
-def evaluate_unit_test(case: Case, response: str) -> int:
+def evaluate_unit_test(case: Case, response: str, use_apptainer: bool) -> EvaluationResult:
     """
     The LLM's response replaces the main.c file and is compiled and run against both the vulnerable and fixed versions.
     """
@@ -51,22 +58,34 @@ def evaluate_unit_test(case: Case, response: str) -> int:
     with open("harness/tmp/harness.h", "w") as f:
         f.write(case.harness_header_with_context)
 
-    result = run_unit_test(case.harness_header_with_context, case.get_replaceable_main_c(case.vulnerable_function_body, response))
+    result = run_unit_test(case.harness_header_with_context, case.get_replaceable_main_c(case.vulnerable_function_body, response), use_apptainer=use_apptainer)
     print("STDOUT and STDERR for vulnerable version:")
     print("stdout: '", result.stdout, "'")
     print("stderr: '", result.stderr, "'")
+
+    fail_on_vuln = False
+    pass_on_fixed = False
+
+
     if "RESULT:FAIL" in result.stdout:
-        score += 1
+        fail_on_vuln = True
     elif "Segmentation fault" in result.stderr:
         print("Segmentation fault detected, counting as FAIL")
-        score += 1
+        fail_on_vuln = True
+    elif result.returncode != 0:
+        print(f"Non-zero return code ({result.returncode}) detected, counting as FAIL")
+        fail_on_vuln = True
 
     # Do it again with non vulnerable
-    result = run_unit_test(case.harness_header_with_context, case.get_replaceable_main_c(case.fixed_function_body, response))
+    result = run_unit_test(case.harness_header_with_context, case.get_replaceable_main_c(case.fixed_function_body, response), use_apptainer=use_apptainer)
     print("STDOUT and STDERR for fixed version:")
     print(result.stdout)
     print(result.stderr)
     if "RESULT:PASS" in result.stdout:
-        score += 1
+        pass_on_fixed = True
 
-    return score
+    return EvaluationResult(
+        fail_on_vuln=fail_on_vuln,
+        pass_on_fixed=pass_on_fixed,
+        total_score=int(fail_on_vuln) + int(pass_on_fixed)
+    )

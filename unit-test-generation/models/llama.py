@@ -9,7 +9,6 @@ import os
 from models.llm import LLM
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:64"
 
-assert torch.cuda.is_available(), "CUDA not visible. Check drivers and CUDA_VISIBLE_DEVICES."
 
 
 _model_name_map = {
@@ -37,6 +36,8 @@ class LlamaModel(LLM):
             ]
 
     def predict(self, main_prompt, batch_size=0, no_progress_bar=False):
+
+        assert torch.cuda.is_available(), "CUDA not visible. Check drivers and CUDA_VISIBLE_DEVICES."
         if "-tai" in self.model_name:
             return self.predict_with_together_ai(main_prompt, batch_size, no_progress_bar)
         else:

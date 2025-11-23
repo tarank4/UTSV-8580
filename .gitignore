@@ -27,3 +27,4 @@ secvul-llm-study/shared/*
 *.png
 *.sif
 *.csv
+unit-test-generation/data/

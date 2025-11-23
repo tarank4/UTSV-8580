@@ -28,7 +28,7 @@ Files to compile:
 
 These are given as raw strings.
 """
-def run_unit_test(harness_h_code: str, main_c_code: str) -> RunResult:
+def run_unit_test(harness_h_code: str, main_c_code: str, use_apptainer=True) -> RunResult:
 
     tmpdir_path = Path(tempfile.mkdtemp(prefix="c_unit_harness_"))
     try:
@@ -36,20 +36,34 @@ def run_unit_test(harness_h_code: str, main_c_code: str) -> RunResult:
         (tmpdir_path / "harness.h").write_text(harness_h_code, encoding="utf-8")
         (tmpdir_path / "main.c").write_text(main_c_code, encoding="utf-8")
 
+        compilation_command = (
+            "gcc -std=c11 -Wall -Wextra -O1 -g "
+            "-fsanitize=address,undefined -fno-omit-frame-pointer main.c -o main"
+        )
+
         # Build the command:
         #   - bind the temp dir at /work
         #   - clean environment, no home mount
         #   - compile and run
-        cmd = [
-            "apptainer","exec","--cleanenv","--no-home",
-            "-B", f"{tmpdir_path}:/work",
-            APPTAINER_IMAGE_PATH,
-            "sh","-lc",
-            "cd /work && ulimit -v unlimited && ulimit -d unlimited && "
-            "gcc -std=c11 -Wall -Wextra -O1 -g "
-            "-fsanitize=address,undefined -fno-omit-frame-pointer main.c -o main && "
-            "ASAN_OPTIONS=abort_on_error=1 ./main"
-        ]
+        if use_apptainer:
+            cmd = [
+                "apptainer","exec","--cleanenv","--no-home",
+                "-B", f"{tmpdir_path}:/work",
+                APPTAINER_IMAGE_PATH,
+                "sh","-lc",
+                "cd /work && ulimit -v unlimited && ulimit -d unlimited && "
+                f"{compilation_command} && "
+                "./main"
+            ]
+
+        else:
+            cmd = [
+                "sh","-lc",
+                f"cd {tmpdir_path} && ulimit -v unlimited && ulimit -d unlimited && "
+                f"{compilation_command} && "
+                "./main"
+            ]
+
 
         try:
             proc = subprocess.run(

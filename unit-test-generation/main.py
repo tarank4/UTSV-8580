@@ -57,6 +57,12 @@ def parse_args() -> argparse.Namespace:
         default="llama-3.1-8b-instruct",
         help="LLaMA model name (if --model-type llama).",
     )
+
+    parser.add_argument(
+        "--use-apptainer",
+        action="store_true",
+        help="Whether to use Apptainer for running unit tests.",
+    )
     return parser.parse_args()
 
 
@@ -112,6 +118,7 @@ def run_run_only(
     dataset: pd.DataFrame,
     logger: MyLogger,
     responses_path: Path,
+    use_apptainer: bool,
 ):
     if not responses_path.exists():
         raise FileNotFoundError(
@@ -132,6 +139,9 @@ def run_run_only(
     os.makedirs("logs", exist_ok=True)
     eval_log_path = Path("logs/evaluation_results.txt")
 
+    score_report_columns = ["case_idx", "fail_on_vuln", "pass_on_fixed", "total_score"]
+    score_report = []
+
     for case_idx, row in dataset.iterrows():
         if case_idx not in responses_by_idx:
             print(f"Skipping case {case_idx}: no stored response found.")
@@ -145,10 +155,25 @@ def run_run_only(
         logger.log(f"Case {case_idx}: {case}")
         print("=" * 20)
 
-        evaluation_result = evaluate_unit_test(case, response)
+        evaluation_result = evaluate_unit_test(case, response, use_apptainer=use_apptainer)
         print("Evaluation result:", evaluation_result)
         with eval_log_path.open("a", encoding="utf-8") as f_eval:
             f_eval.write(f"Case {case_idx}: Score {evaluation_result}\n")
+        
+        score_report.append(
+            (case_idx, evaluation_result.fail_on_vuln, evaluation_result.pass_on_fixed, evaluation_result.total_score)
+        )
+
+    score_report_df = pd.DataFrame(
+        score_report,
+        columns=score_report_columns,
+    )
+    score_report_df.to_csv("logs/score_report.csv", index=False)
+    print("Score report:")
+    print(score_report_df)
+
+
+        
 
 
 def run_both(
@@ -156,6 +181,7 @@ def run_both(
     model,
     logger: MyLogger,
     responses_path: Path,
+    use_apptainer: bool,
 ):
     responses_path.parent.mkdir(parents=True, exist_ok=True)
     eval_log_path = Path("logs/evaluation_results.txt")
@@ -193,7 +219,7 @@ def run_both(
             f_out.write("\n")
 
             # Evaluate immediately
-            evaluation_result = evaluate_unit_test(case, response)
+            evaluation_result = evaluate_unit_test(case, response, use_apptainer=use_apptainer)
             print("Evaluation result:", evaluation_result)
             with eval_log_path.open("a", encoding="utf-8") as f_eval:
                 f_eval.write(f"Case {case_idx}: Score {evaluation_result}\n")
@@ -220,9 +246,10 @@ def main():
     if args.mode == "inference-only":
         run_inference_only(dataset, model, logger, responses_path)
     elif args.mode == "run-only":
-        run_run_only(dataset, logger, responses_path)
+        run_run_only(dataset, logger, responses_path, args.use_apptainer)
     else:  # both
-        run_both(dataset, model, logger, responses_path)
+        run_both(dataset, model, logger, responses_path, args.use_apptainer)
+
 
 
 if __name__ == "__main__":

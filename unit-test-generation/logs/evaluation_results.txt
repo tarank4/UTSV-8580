@@ -121,3 +121,280 @@ Case 2: Score 0
 Case 3: Score 0
 Case 4: Score 0
 Case 5: Score 0
+<<<<<<< HEAD
+=======
+Case 6: Score 0
+Case 7: Score 0
+Case 8: Score 0
+Case 9: Score 0
+Case 10: Score 0
+Case 11: Score 0
+Case 12: Score 0
+Case 13: Score 0
+Case 14: Score 0
+Case 15: Score 0
+Case 16: Score 0
+Case 17: Score 0
+Case 18: Score 0
+Case 19: Score 0
+Case 20: Score 0
+Case 21: Score 0
+Case 22: Score 0
+Case 23: Score 0
+Case 24: Score 0
+Case 25: Score 0
+Case 26: Score 0
+Case 27: Score 0
+Case 28: Score 0
+Case 29: Score 0
+Case 30: Score 0
+Case 31: Score 0
+Case 32: Score 0
+Case 33: Score 0
+Case 34: Score 0
+Case 35: Score 0
+Case 36: Score 0
+Case 37: Score 0
+Case 38: Score 0
+Case 39: Score 0
+Case 40: Score 0
+Case 41: Score 0
+Case 42: Score 0
+Case 43: Score 0
+Case 44: Score 0
+Case 45: Score 0
+Case 46: Score 0
+Case 47: Score 0
+Case 48: Score 0
+Case 49: Score 0
+Case 50: Score 0
+Case 51: Score 0
+Case 52: Score 0
+Case 53: Score 0
+Case 54: Score 0
+Case 55: Score 0
+Case 56: Score 0
+Case 57: Score 0
+Case 58: Score 0
+Case 59: Score 0
+Case 60: Score 0
+Case 61: Score 0
+Case 62: Score 0
+Case 63: Score 0
+Case 64: Score 0
+Case 65: Score 0
+Case 66: Score 0
+Case 67: Score 0
+Case 68: Score 0
+Case 69: Score 0
+Case 0: Score 2
+Case 1: Score 1
+Case 2: Score 1
+Case 3: Score 0
+Case 4: Score 1
+Case 5: Score 0
+Case 6: Score 0
+Case 7: Score 0
+Case 8: Score 0
+Case 9: Score 0
+Case 10: Score 1
+Case 11: Score 0
+Case 12: Score 1
+Case 13: Score 1
+Case 14: Score 1
+Case 15: Score 1
+Case 16: Score 0
+Case 17: Score 1
+Case 18: Score 0
+Case 19: Score 2
+Case 20: Score 1
+Case 21: Score 1
+Case 22: Score 1
+Case 23: Score 1
+Case 24: Score 1
+Case 25: Score 1
+Case 26: Score 0
+Case 27: Score 0
+Case 28: Score 1
+Case 29: Score 1
+Case 30: Score 0
+Case 31: Score 1
+Case 32: Score 1
+Case 33: Score 0
+Case 34: Score 0
+Case 35: Score 0
+Case 36: Score 0
+Case 37: Score 1
+Case 38: Score 0
+Case 39: Score 1
+Case 40: Score 0
+Case 41: Score 1
+Case 42: Score 0
+Case 43: Score 0
+Case 44: Score 0
+Case 45: Score 0
+Case 46: Score 1
+Case 47: Score 1
+Case 48: Score 1
+Case 49: Score 2
+Case 50: Score 1
+Case 51: Score 1
+Case 52: Score 0
+Case 53: Score 1
+Case 54: Score 1
+Case 55: Score 1
+Case 56: Score 1
+Case 57: Score 1
+Case 58: Score 1
+Case 59: Score 1
+Case 60: Score 1
+Case 61: Score 1
+Case 62: Score 1
+Case 63: Score 1
+Case 64: Score 1
+Case 65: Score 1
+Case 66: Score 1
+Case 67: Score 1
+Case 68: Score 1
+Case 69: Score 0
+Case 0: Score 2
+Case 1: Score 1
+Case 2: Score 1
+Case 3: Score 1
+Case 4: Score 1
+Case 5: Score 1
+Case 6: Score 1
+Case 7: Score 0
+Case 8: Score 1
+Case 9: Score 1
+Case 10: Score 2
+Case 11: Score 1
+Case 12: Score 1
+Case 13: Score 1
+Case 14: Score 1
+Case 15: Score 1
+Case 16: Score 1
+Case 17: Score 1
+Case 18: Score 1
+Case 19: Score 2
+Case 20: Score 1
+Case 21: Score 1
+Case 22: Score 1
+Case 23: Score 1
+Case 24: Score 1
+Case 25: Score 1
+Case 26: Score 1
+Case 27: Score 1
+Case 28: Score 1
+Case 29: Score 1
+Case 30: Score 0
+Case 31: Score 1
+Case 32: Score 1
+Case 33: Score 1
+Case 34: Score 1
+Case 35: Score 0
+Case 36: Score 1
+Case 37: Score 1
+Case 38: Score 0
+Case 39: Score 1
+Case 40: Score 0
+Case 41: Score 1
+Case 42: Score 0
+Case 43: Score 0
+Case 44: Score 0
+Case 45: Score 1
+Case 46: Score 1
+Case 47: Score 1
+Case 48: Score 1
+Case 49: Score 2
+Case 50: Score 1
+Case 51: Score 1
+Case 52: Score 1
+Case 53: Score 1
+Case 54: Score 1
+Case 55: Score 1
+Case 56: Score 1
+Case 57: Score 1
+Case 58: Score 1
+Case 59: Score 1
+Case 60: Score 1
+Case 61: Score 1
+Case 62: Score 1
+Case 63: Score 1
+Case 64: Score 1
+Case 65: Score 1
+Case 66: Score 1
+Case 67: Score 1
+Case 68: Score 1
+Case 69: Score 1
+Case 0: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=True, total_score=2)
+Case 1: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 2: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 3: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 4: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 5: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 6: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 7: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 8: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 9: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 10: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=True, total_score=2)
+Case 11: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 12: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 13: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 14: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 15: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 16: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 17: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 18: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 19: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=True, total_score=2)
+Case 20: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 21: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 22: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 23: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 24: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 25: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 26: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 27: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 28: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 29: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 30: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 31: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 32: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 33: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 34: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 35: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 36: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 37: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 38: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 39: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 40: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 41: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 42: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 43: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 44: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=False, total_score=0)
+Case 45: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 46: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 47: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 48: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 49: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=True, total_score=2)
+Case 50: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 51: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 52: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 53: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 54: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 55: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 56: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 57: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 58: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 59: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 60: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+Case 61: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 62: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 63: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 64: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 65: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 66: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 67: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 68: Score EvaluationResult(fail_on_vuln=False, pass_on_fixed=True, total_score=1)
+Case 69: Score EvaluationResult(fail_on_vuln=True, pass_on_fixed=False, total_score=1)
+>>>>>>> cef0b73e6b4bb207e9ff41f3e59dce8aabeec002

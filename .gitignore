@@ -30,3 +30,4 @@ secvul-llm-study/shared/*
 unit-test-generation/data/
 *.parquet
 unit-test-generation/harness/tmp
+*.jsonl

@@ -2,7 +2,7 @@ from pathlib import Path
 import json
 
 harness_dir = Path("harness/")
-prompt_dir = Path("prompts/prompt_v2.md")
+prompt_dir = Path("prompts/prompt_v3.md")
 
 
 def get_harness_header() -> str:
@@ -37,6 +37,7 @@ class Case:
         self.function_name = function_name
         self.vulnerable_function_body = self.clean_body(vulnerable_function_body)
         self.fixed_function_body = self.clean_body(fixed_function_body)
+
         self.function_signature = self.extract_function_signature()
         self.context = context
         self.harness_header_with_context = Case.harness_header.format(
@@ -123,6 +124,6 @@ def build_case_from_row(row: dict) -> Case:
         function_name=row["func_name"],
         vulnerable_function_body=row["vuln_func_body"],
         fixed_function_body=row["fixed_func_body"],
+        # context="",
         context=row.get("generated_context", ""),
     )
-

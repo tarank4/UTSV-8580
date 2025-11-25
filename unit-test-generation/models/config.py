@@ -4,8 +4,8 @@ _DATA_DIR_PATH = 'datasets/'
 
 # same params for all sizes
 _DEFAULT_PARAMS = {
-    'max_new_tokens': 1024,
-    'temperature': 0.0,
+    'max_new_tokens': 4096,
+    'temperature': 0.01,
     'top_p': 1.0
 }
 

@@ -1,5 +1,5 @@
-The following code has a security vulnerability. Write a unit test that will FAIL because of the vulnerability. 
-The same test MUST PASS on a fixed version of the code.
+The following code has a security vulnerability. Write a unit test that will FAIL (or crash) because of the vulnerability. 
+The same test MUST PASS on a fixed version of the code utilizing the harness and not defining what the harness provides.
 
 # Vulnerable Function Body
 
@@ -9,7 +9,7 @@ The same test MUST PASS on a fixed version of the code.
 
 {fixed_function_body}
 
-# Testing Harness (harness.h)
+# Testing Harness (harness.h) (don't cause redefinition issues)
 
 {harness_h}
 
@@ -42,6 +42,7 @@ You are NOT allowed to:
 - Propose or show a FIXED version of the vulnerable function.
 - Output markdown (no ``` fences).
 - Add or modify main(), includes, or other functions.
+- redefine methods or variables from the harness
 
 # Output format (STRICT)
 

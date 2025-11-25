@@ -3,7 +3,7 @@
 // Function under test
 {function_signature};
 
-// <Configure global constants and variables here>
+// <Configure global constants and variables here that the harness does not provide>
 // <Environment setup for function under test>
 
 // Your generated code will be placed right here

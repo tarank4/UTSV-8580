@@ -2,11 +2,13 @@ import argparse
 import json
 import os
 from pathlib import Path
+from tqdm import tqdm
 
 import pandas as pd
 
 from models.llama import LlamaModel
 from models.qwen import QwenModel
+from models.deepkseek_api import DeepSeekAPIModel
 from utils.mylogger import MyLogger
 from case import build_case_from_row, Case
 from evaluation.eval import evaluate_unit_test
@@ -37,14 +39,9 @@ def parse_args() -> argparse.Namespace:
         help="Path to the CSV dataset.",
     )
     parser.add_argument(
-        "--responses-path",
-        default="logs/model_responses.jsonl",
-        help="Path to JSONL file where model outputs are saved/loaded.",
-    )
-    parser.add_argument(
         "--model-type",
-        choices=["qwen", "llama"],
-        default="qwen",
+        choices=["qwen", "llama", "deepseek"],
+        default="deepseek",
         help="Which model wrapper to use.",
     )
     parser.add_argument(
@@ -59,6 +56,12 @@ def parse_args() -> argparse.Namespace:
     )
 
     parser.add_argument(
+        "--deepseek-name",
+        default="deepseek-chat",
+        help="DeepSeek model name (if --model-type deepseek).",
+    )
+
+    parser.add_argument(
         "--use-apptainer",
         action="store_true",
         help="Whether to use Apptainer for running unit tests.",
@@ -66,14 +69,17 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def load_model(model_type: str, llama_name: str, qwen_name: str, logger: MyLogger):
-    if model_type == "llama":
-        return LlamaModel(llama_name, logger)
+def load_model(args, logger: MyLogger):
+    if args.model_type == "llama":
+        return LlamaModel(args.llama_name, logger)
+    elif args.model_type == "deepseek":
+        return DeepSeekAPIModel(args.deepseek_name, logger)
+    elif args.model_type == "qwen":
+        return QwenModel(args.qwen_name, logger)
     else:
-        return QwenModel(qwen_name, logger)
-
-
-def run_inference_only(
+        raise ValueError(f"Unknown model type: {args.model_type}")
+    
+def run_inference_single_stage(
     dataset: pd.DataFrame,
     model,
     logger: MyLogger,
@@ -87,13 +93,16 @@ def run_inference_only(
             logger.log(f"Case {case_idx}: {case}")
             print("=" * 20)
 
+            print("=================== Prompt: ==================")
+            print("Prompt:", case.get_prompt())
+
             messages = [
                 {
                     "role": "system",
                     "content": (
-                        "You are a tool that ONLY generates C unit tests for a given harness. "
-                        "You must respond with C code ONLY, no explanations, no markdown, "
-                        "no patched versions of the vulnerable function."
+                        "You are a C low-level programming expert. "
+                        "You must output only the unit test implementation code and analysis. "
+                        "No other text."
                     ),
                 },
                 {
@@ -103,13 +112,120 @@ def run_inference_only(
             ]
             response = model.predict(messages, batch_size=1, no_progress_bar=False)
 
+            print("=================== Response: ==================")
+            print(response)
+            print()
+
+            # Get results for that response
+            evaluation_result = evaluate_unit_test(case, response, use_apptainer=False)
+
+            print("Evaluation result markdown:", evaluation_result.as_markdown())
+
             record = {
                 "case_idx": int(case_idx),
                 "cve_list": case.cve_list,
+                "score": evaluation_result.total_score,
+                "final_evaluation": evaluation_result.__dict__,
                 "response": response,
+                "messages": messages,
             }
+
+            print("Score:", evaluation_result.total_score)
             json.dump(record, f_out)
             f_out.write("\n")
+
+
+def run_inference_only_two_stage_with_analysis(
+    dataset: pd.DataFrame,
+    model,
+    logger: MyLogger,
+    responses_path: Path,
+):
+    responses_path.parent.mkdir(parents=True, exist_ok=True)
+    with responses_path.open("w", encoding="utf-8") as f_out:
+        for case_idx, row in tqdm(dataset.iterrows(), total=len(dataset)):
+            if case_idx <= 24:
+                continue
+            case: Case = build_case_from_row(row.to_dict())
+            print("Case:", case)
+            logger.log(f"Case {case_idx}: {case}")
+            print("=" * 20)
+
+            print("=================== Prompt: ==================")
+            print("Prompt:", case.get_prompt())
+
+            messages = [
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a C low-level programming expert. "
+                        "You must output exactly two sections: <ANALYSIS> </ANALYSIS> and <FINAL_CODE> </FINAL_CODE>. "
+                        "No other text."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": case.get_prompt(),
+                },
+            ]
+            first_response = model.predict(messages, batch_size=1, no_progress_bar=False)
+
+            print("=================== Response: ==================")
+            print(first_response)
+            print()
+
+            # Get results for that response
+            evaluation_result = evaluate_unit_test(case, first_response, use_apptainer=False)
+
+            print("Evaluation result markdown:", evaluation_result.as_markdown())
+
+            # Ask it to refine and respond again to the prompt
+            messages.extend([
+                {
+                    "role": "assistant",
+                    "content": first_response,
+                },
+                {
+                    "role": "system",
+                    "content": (
+                        "Results from running your unit test on the vulnerable and fixed functions:\n"
+                        f"{evaluation_result.as_markdown()} \n"
+                        )
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        "Rewrite your <ANALYSIS> </ANALYSIS> and <FINAL_CODE> unit test implementation </FINAL_CODE> to fix any mistakes or issues in the first attempt to get "
+                        "pass on the fixed version and fail on the vulnerable version. "
+                        "Your analysis should reflect on what went wrong in the first attempt. "
+                    ),
+                }
+            ]
+            )
+
+            second_response = model.predict(messages, batch_size=1, no_progress_bar=False)
+
+            print("=================== Refined Response: ==================")
+            print(second_response)
+            print()
+
+            final_evaluation_result = evaluate_unit_test(case, second_response, use_apptainer=False)
+
+
+            record = {
+                "case_idx": int(case_idx),
+                "cve_list": case.cve_list,
+                "score": final_evaluation_result.total_score,
+                "final_evaluation": final_evaluation_result.__dict__,
+                "response": second_response,
+                "messages": messages,
+                "intermediate_evaluation": evaluation_result.__dict__,
+            }
+
+            print("Final Evaluation result markdown:", final_evaluation_result.as_markdown())
+            json.dump(record, f_out)
+            f_out.write("\n")
+            print("Score:", final_evaluation_result.total_score)
 
 
 def run_run_only(
@@ -141,6 +257,8 @@ def run_run_only(
     score_report = []
 
     for case_idx, row in dataset.iterrows():
+        if case_idx <= 24:
+            continue
         if case_idx not in responses_by_idx:
             print(f"Skipping case {case_idx}: no stored response found.")
             logger.log(f"Skipping case {case_idx}: no stored response found.")
@@ -181,48 +299,23 @@ def run_both(
     responses_path: Path,
     use_apptainer: bool,
 ):
-    responses_path.parent.mkdir(parents=True, exist_ok=True)
-    eval_log_path = Path("logs/evaluation_results.txt")
+    # dataset is just idx 50
+    # dataset = dataset.iloc[[7]]
 
-    with responses_path.open("w", encoding="utf-8") as f_out:
-        for case_idx, row in dataset.iterrows():
-            if case_idx != 50:
-                continue
-            case: Case = build_case_from_row(row.to_dict())
-            print("Case:", case)
-            logger.log(f"Case {case_idx}: {case}")
-            print("=" * 20)
-
-            messages = [
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a tool that ONLY generates C unit tests for a given harness. "
-                        "You must respond with C code ONLY, no explanations, no markdown, "
-                        "no patched versions of the vulnerable function."
-                    ),
-                },
-                {
-                    "role": "user",
-                    "content": case.get_prompt(),
-                },
-            ]
-            response = model.predict(messages, batch_size=1, no_progress_bar=False)
-
-            # Save response for future run-only use
-            record = {
-                "case_idx": int(case_idx),
-                "cve_list": case.cve_list,
-                "response": response,
-            }
-            json.dump(record, f_out)
-            f_out.write("\n")
-
-            # Evaluate immediately
-            evaluation_result = evaluate_unit_test(case, response, use_apptainer=use_apptainer)
-            print("Evaluation result:", evaluation_result)
-            with eval_log_path.open("a", encoding="utf-8") as f_eval:
-                f_eval.write(f"Case {case_idx}: Score {evaluation_result}\n")
+    # Only keep case_idx > 24
+    # dataset = dataset[dataset.index > 24]
+    run_inference_only_two_stage_with_analysis(
+        dataset,
+        model,
+        logger,
+        responses_path,
+    )
+    # run_run_only(
+    #     dataset,
+    #     logger,
+    #     responses_path,
+    #     use_apptainer,
+    # )
 
 
 def main():
@@ -236,10 +329,15 @@ def main():
     print("Dataset loaded with {} rows".format(len(dataset)))
     logger.log(f"Dataset loaded with {len(dataset)} rows from {args.dataset_path}")
 
-    responses_path = Path(args.responses_path)
+    nice_string_args = "_".join(
+        f"{k}-{v}" for k, v in sorted(vars(args).items()) if k != "dataset_path"
+    )
+
+    experiment_name = f"experiment_{nice_string_args}"
+    responses_path = Path(f"logs/{experiment_name}_responses.jsonl")
 
     if args.mode in ("inference-only", "both"):
-        model = load_model(args.model_type, args.llama_name, args.qwen_name, logger)
+        model = load_model(args, logger)
     else:
         model = None  # Not needed in run-only mode
 

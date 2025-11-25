@@ -38,7 +38,8 @@ def run_unit_test(harness_h_code: str, main_c_code: str, use_apptainer=True) -> 
 
         sanitized_compilation_command = (
             "gcc -std=c11 -Wall -Wextra -O1 -g "
-            "-fsanitize=address,undefined -fno-omit-frame-pointer main.c -o main"
+            "-fsanitize=address,undefined -fno-omit-frame-pointer " 
+            "main.c -o main"
         )
 
         unsanitized_compilation_command = (
@@ -66,6 +67,8 @@ def run_unit_test(harness_h_code: str, main_c_code: str, use_apptainer=True) -> 
                 "sh","-lc",
                 f"cd {tmpdir_path} && ulimit -v unlimited && ulimit -d unlimited && "
                 f"{sanitized_compilation_command} && "
+                "UBSAN_OPTIONS=halt_on_error=1:abort_on_error=1 "
+                "ASAN_OPTIONS=abort_on_error=1 "
                 "./main"
             ]
 
